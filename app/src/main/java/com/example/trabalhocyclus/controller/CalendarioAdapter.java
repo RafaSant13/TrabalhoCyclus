@@ -7,18 +7,26 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.trabalhocyclus.CalendarioActivity;
 import com.example.trabalhocyclus.R;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CalendarioAdapter extends RecyclerView.Adapter<CalendarioViewHolder> {
 
-    public final ArrayList<String> diasMes;
+    public final ArrayList<LocalDate> diasMes;
     private final OnItemListener onItemListener;
+    private final int color;
+    private int id;
+    private CalendarioActivity calendarioActivity;
 
-    public CalendarioAdapter(ArrayList<String> diasMes, OnItemListener onItemListener) {
+    public CalendarioAdapter(ArrayList<LocalDate> diasMes, OnItemListener onItemListener, int color, int id, CalendarioActivity calendarioActivity) {
         this.diasMes = diasMes;
         this.onItemListener = onItemListener;
+        this.color = color;
+        this.id = id;
+        this.calendarioActivity = calendarioActivity;
     }
 
     @NonNull
@@ -33,7 +41,13 @@ public class CalendarioAdapter extends RecyclerView.Adapter<CalendarioViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CalendarioViewHolder holder, int position) {
-        holder.tvDia.setText(diasMes.get(position));
+        if (diasMes.get(position).isEqual(LocalDate.MIN)) {
+            holder.tvDia.setText("");
+        } else {
+            holder.tvDia.setText(String.valueOf(diasMes.get(position).getDayOfMonth()));
+        }
+        CalendarioController cc = new CalendarioController();
+        cc.checaMens(holder, diasMes.get(position), color, id, calendarioActivity);
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.example.trabalhocyclus;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,7 +13,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trabalhocyclus.controller.CalendarioAdapter;
+import com.example.trabalhocyclus.controller.CalendarioController;
 import com.example.trabalhocyclus.controller.OnItemListener;
+import com.example.trabalhocyclus.model.Dia;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -22,14 +27,24 @@ public class CalendarioActivity extends AppCompatActivity implements OnItemListe
     private TextView tvMesAno;
     private RecyclerView rvCalendario;
     private LocalDate data;
+    private Button btnVoltar;
+    private Dia dia;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendario);
         initWidgets();
+        /*Bundle bundle = getIntent().getExtras();
+        id = bundle.getInt("id");
+        bundle.remove("id");
+        bundle.remove("tipo");*/
+        id = 1;
         data = LocalDate.now();
         setMesView();
+        btnVoltar = findViewById(R.id.btnVoltar);
+        btnVoltar.setOnClickListener(op -> Voltar());
     }
 
     private void initWidgets() {
@@ -39,17 +54,17 @@ public class CalendarioActivity extends AppCompatActivity implements OnItemListe
 
     private void setMesView() {
         tvMesAno.setText(mesAnoFromData(data));
-        ArrayList<String> diasMes = diasNoMesArray(data);
-
-        CalendarioAdapter ca = new CalendarioAdapter(diasMes, this);
+        ArrayList<LocalDate> diasMes = diasNoMesArray(data);
+        int color = getResources().getColor(R.color.salmon, getTheme());
+        CalendarioAdapter ca = new CalendarioAdapter(diasMes, this, color, id, this);
         RecyclerView.LayoutManager lm = new GridLayoutManager(getApplicationContext(), 7);
         rvCalendario.setLayoutManager(lm);
         rvCalendario.setAdapter(ca);
 
     }
 
-    private ArrayList<String> diasNoMesArray(LocalDate data) {
-        ArrayList<String> diasNoMesArray = new ArrayList<>();
+    private ArrayList<LocalDate> diasNoMesArray(LocalDate data) {
+        ArrayList<LocalDate> diasNoMesArray = new ArrayList<>();
         YearMonth ym = YearMonth.from(data);
 
         int diasNoMes = ym.lengthOfMonth();
@@ -60,10 +75,10 @@ public class CalendarioActivity extends AppCompatActivity implements OnItemListe
         for (int i =1; i<=42; i++){
             if (i<= dayOfWeek || i> diasNoMes + dayOfWeek)
             {
-                diasNoMesArray.add("");
+                diasNoMesArray.add(LocalDate.MIN);
             }
             else {
-                diasNoMesArray.add(String.valueOf((i-dayOfWeek)));
+                diasNoMesArray.add(LocalDate.of(data.getYear(), data.getMonthValue(),i-dayOfWeek));
             }
         }
         return diasNoMesArray;
@@ -84,10 +99,21 @@ public class CalendarioActivity extends AppCompatActivity implements OnItemListe
         setMesView();
     }
 
+    public void Voltar(){
+        Bundle b = new Bundle();
+        b.putInt("id", id);
+        Intent i = new Intent(this, HomeActivity.class);
+        i.putExtras(b);
+        this.startActivity(i);
+        this.finish();
+    }
+
     @Override
     public void onItemClick(int position, String tvDia) {
-        if (tvDia.equals("")){
-            Toast.makeText(this, tvDia+ " "+mesAnoFromData(data),Toast.LENGTH_LONG).show();
+        CalendarioController cc = new CalendarioController();
+        if (!tvDia.equals("")){
+            dia = cc.carregaDia(LocalDate.of(data.getYear(), data.getMonthValue(), Integer.parseInt(tvDia)), id, this);
+            Toast.makeText(this, dia.toString(),Toast.LENGTH_LONG).show();
         }
     }
 }

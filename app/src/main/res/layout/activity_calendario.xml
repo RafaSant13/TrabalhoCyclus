@@ -9,6 +9,12 @@
     android:orientation="vertical"
     tools:context=".CalendarioActivity">
 
+    <Button
+        android:id="@+id/btnVoltar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/voltar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
