@@ -46,25 +46,26 @@ public class MensDao implements IMensDao, ICRUDDao<Menstruacao> {
     public int update(Menstruacao m) throws SQLException {
         ContentValues cv = getContentValues(m);
         int ret = db.update("menstruacao", cv,
-                "data_inicio = " + m.getInicio() + "AND idUsuario = "+m.getUsuario().getId(), null);
+                "data_inicio = '" + m.getInicio().toString() + "' AND idUsuario = "+m.getUsuario().getId(), null);
         return ret;
     }
 
     @Override
     public void delete(Menstruacao m) throws SQLException {
         ContentValues cv = getContentValues(m);
-        db.delete("menstruacao", "data_inicio = " + m.getInicio() + "AND idUsuario = "+m.getUsuario().getId(),
+        db.delete("menstruacao", "data_inicio = '" + m.getInicio().toString() + "' AND idUsuario = "+m.getUsuario().getId(),
                 null);
     }
 
     @SuppressLint("Range")
     @Override
     public Menstruacao findOne(Menstruacao m) throws SQLException {
+        Menstruacao m1 = new Menstruacao();
         String sql = "SELECT u.id, u.login, u.senha, u.nome, " +
                 " m.data_inicio, m.data_fim,  m.dias" +
                 "  from usuario u, menstruacao m" +
                 " WHERE m.idUsuario = u.id AND m.idUsuario = "+m.getUsuario().getId() +"" +
-                "AND m.data_inicio = "+m.getInicio();
+                " AND m.data_inicio = '"+m.getInicio().toString()+"'";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor!=null){
             cursor.moveToFirst();
@@ -76,13 +77,15 @@ public class MensDao implements IMensDao, ICRUDDao<Menstruacao> {
             u.setSenha(cursor.getString(cursor.getColumnIndex("senha")));
             u.setNome(cursor.getString(cursor.getColumnIndex("nome")));
 
-            m.setInicio(LocalDate.parse(cursor.getString(cursor.getColumnIndex("data_inicio"))));
-            m.setFim(LocalDate.parse(cursor.getString(cursor.getColumnIndex("data_fim"))));
-            m.setDiasDesdeUltimo(cursor.getInt(cursor.getColumnIndex("dias")));
-            m.setUsuario(u);
+            m1.setInicio(LocalDate.parse(cursor.getString(cursor.getColumnIndex("data_inicio"))));
+            if (cursor.getString(cursor.getColumnIndex("data_fim"))!=null){
+                m1.setFim(LocalDate.parse(cursor.getString(cursor.getColumnIndex("data_fim"))));
+            }
+            m1.setDiasDesdeUltimo(cursor.getInt(cursor.getColumnIndex("dias")));
+            m1.setUsuario(u);
         }
         cursor.close();
-        return m;
+        return m1;
     }
 
     @SuppressLint("Range")
@@ -91,7 +94,8 @@ public class MensDao implements IMensDao, ICRUDDao<Menstruacao> {
         String sql = "SELECT u.id, u.login, u.senha, u.nome, " +
                 " m.data_inicio, m.data_fim,  m.dias" +
                 "  from usuario u, menstruacao m" +
-                " WHERE m.idUsuario = u.id AND m.idUsuario = "+id;
+                " WHERE m.idUsuario = u.id AND m.idUsuario = "+id+"" +
+                " ORDER BY m.data_inicio";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor!=null){
             cursor.moveToFirst();
@@ -105,7 +109,9 @@ public class MensDao implements IMensDao, ICRUDDao<Menstruacao> {
             Menstruacao m = new Menstruacao();
 
             m.setInicio(LocalDate.parse(cursor.getString(cursor.getColumnIndex("data_inicio"))));
-            m.setFim(LocalDate.parse(cursor.getString(cursor.getColumnIndex("data_fim"))));
+            if (cursor.getString(cursor.getColumnIndex("data_fim"))!=null){
+                m.setFim(LocalDate.parse(cursor.getString(cursor.getColumnIndex("data_fim"))));
+            }
             m.setDiasDesdeUltimo(cursor.getInt(cursor.getColumnIndex("dias")));
             m.setUsuario(u);
             menstruacoes.add(m);
@@ -118,7 +124,9 @@ public class MensDao implements IMensDao, ICRUDDao<Menstruacao> {
     private static ContentValues getContentValues (Menstruacao m){
         ContentValues cv = new ContentValues();
         cv.put("data_inicio", m.getInicio().toString());
-        cv.put("data_fim", m.getFim().toString());
+        if (m.getFim()!=null){
+            cv.put("data_fim", m.getFim().toString());
+        }
         cv.put("dias", m.getDiasDesdeUltimo());
         cv.put("idUsuario", m.getUsuario().getId());
         return cv;

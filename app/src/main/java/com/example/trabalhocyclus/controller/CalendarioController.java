@@ -21,36 +21,51 @@ public class CalendarioController {
         super();
     }
 
-    public void checaMens(@NonNull CalendarioViewHolder holder, LocalDate l, int color, int id, CalendarioActivity calendarioActivity){
-        MensController mc =  new MensController(new MensDao(calendarioActivity));
+    public void checaMens(@NonNull CalendarioViewHolder holder, LocalDate l, List<Integer> paleta, int id, CalendarioActivity calendarioActivity) throws SQLException {
+        MensController mc =  new MensController(new MensDao(calendarioActivity), id);
         try {
-            List<Menstruacao> menstruacoes = mc.findAllById(id);
+            List<Menstruacao> menstruacoes = mc.findAllById();
             for (Menstruacao m : menstruacoes){
-                if (isWithinRange(l, m.getInicio(), m.getFim())){
-                    holder.tvDia.setBackgroundColor(color);
+                LocalDate fim = m.getFim();
+                if (m.getFim()==null){
+                    fim = LocalDate.now();
+                }
+                if (isWithinRange(l, m.getInicio(), fim)){
+                    if (l.isEqual(LocalDate.now())){
+                        holder.tvDia.setBackgroundColor(paleta.get(0));
+                    }
+                    else {
+                        holder.tvDia.setBackgroundColor(paleta.get(1));
+                    }
                     break;
                 }
+                if (l.isEqual(LocalDate.now())){
+                    holder.tvDia.setBackgroundColor(paleta.get(2));
+                }
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Dia carregaDia(LocalDate data, int id, CalendarioActivity calendarioActivity){
-        MensController mc =  new MensController(new MensDao(calendarioActivity));
+    public Dia carregaDia(LocalDate data, int id, CalendarioActivity calendarioActivity) throws SQLException {
+        MensController mc =  new MensController(new MensDao(calendarioActivity), id);
         Dia dia = null;
         try {
-            List<Menstruacao> menstruacoes = mc.findAllById(id);
+            List<Menstruacao> menstruacoes = mc.findAllById();
             for (Menstruacao m : menstruacoes){
-                if (isWithinRange(data, m.getInicio(), m.getFim())){
+                LocalDate fim = m.getFim();
+                if (m.getFim()==null){
+                    fim = LocalDate.now();
+                }
+                if (isWithinRange(data, m.getInicio(), fim)){
                     dia = new DiaMens(data);
                     break;
                 } else {
                     dia = new DiaComum(data);
-                    break;
                 }
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             return dia;

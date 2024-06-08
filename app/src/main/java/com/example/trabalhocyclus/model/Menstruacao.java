@@ -48,4 +48,9 @@ public class Menstruacao {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+    @Override
+    public String toString() {
+        return "Menstruacao: Início: "+getInicio().toString()+" - Fim: "+getFim().toString()+"\n";
+    }
 }

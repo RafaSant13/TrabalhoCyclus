@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class GenericDao extends SQLiteOpenHelper {
 
     private static final String DATABASE = "CYCLUSteste";
-    private static final int DATABASE_VER = 4;
+    private static final int DATABASE_VER = 5;
     private static final String CREATE_TABLE_USUARIO =
             "CREATE TABLE usuario (" +
                     "id INT NOT NULL UNIQUE PRIMARY KEY, " +
@@ -29,18 +29,6 @@ public class GenericDao extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USUARIO);
         db.execSQL(CREATE_TABLE_MENS);
-        ContentValues cv = new ContentValues();
-        cv.put("data_inicio", "2024-04-20");
-        cv.put("data_fim", "2024-04-30");
-        cv.put("dias", 0);
-        cv.put("idUsuario", 1);
-        db.insert("menstruacao",null, cv);
-        ContentValues cv1 = new ContentValues();
-        cv1.put("data_inicio", "2024-05-20");
-        cv1.put("data_fim", "2024-05-30");
-        cv1.put("dias", 28);
-        cv1.put("idUsuario", 1);
-        db.insert("menstruacao",null, cv1);
     }
 
     @Override

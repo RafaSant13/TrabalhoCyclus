@@ -17,10 +17,12 @@ import com.example.trabalhocyclus.controller.CalendarioController;
 import com.example.trabalhocyclus.controller.OnItemListener;
 import com.example.trabalhocyclus.model.Dia;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CalendarioActivity extends AppCompatActivity implements OnItemListener {
 
@@ -36,11 +38,10 @@ public class CalendarioActivity extends AppCompatActivity implements OnItemListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendario);
         initWidgets();
-        /*Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         id = bundle.getInt("id");
         bundle.remove("id");
-        bundle.remove("tipo");*/
-        id = 1;
+        bundle.remove("tipo");
         data = LocalDate.now();
         setMesView();
         btnVoltar = findViewById(R.id.btnVoltar);
@@ -55,8 +56,11 @@ public class CalendarioActivity extends AppCompatActivity implements OnItemListe
     private void setMesView() {
         tvMesAno.setText(mesAnoFromData(data));
         ArrayList<LocalDate> diasMes = diasNoMesArray(data);
-        int color = getResources().getColor(R.color.salmon, getTheme());
-        CalendarioAdapter ca = new CalendarioAdapter(diasMes, this, color, id, this);
+        List<Integer> paleta = new ArrayList<>();
+        paleta.add(getResources().getColor(R.color.salmon, getTheme()));
+        paleta.add(getResources().getColor(R.color.salmonLight, getTheme()));
+        paleta.add(getResources().getColor(R.color.gray, getTheme()));
+        CalendarioAdapter ca = new CalendarioAdapter(diasMes, this, paleta, id, this);
         RecyclerView.LayoutManager lm = new GridLayoutManager(getApplicationContext(), 7);
         rvCalendario.setLayoutManager(lm);
         rvCalendario.setAdapter(ca);
@@ -112,8 +116,13 @@ public class CalendarioActivity extends AppCompatActivity implements OnItemListe
     public void onItemClick(int position, String tvDia) {
         CalendarioController cc = new CalendarioController();
         if (!tvDia.equals("")){
-            dia = cc.carregaDia(LocalDate.of(data.getYear(), data.getMonthValue(), Integer.parseInt(tvDia)), id, this);
-            Toast.makeText(this, dia.toString(),Toast.LENGTH_LONG).show();
+            try {
+                dia = cc.carregaDia(LocalDate.of(data.getYear(), data.getMonthValue(), Integer.parseInt(tvDia)), id, this);
+                Toast.makeText(this, dia.toString(),Toast.LENGTH_LONG).show();
+            } catch (SQLException e) {
+                Toast.makeText(this, e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 }

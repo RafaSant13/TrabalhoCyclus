@@ -10,21 +10,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.trabalhocyclus.CalendarioActivity;
 import com.example.trabalhocyclus.R;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CalendarioAdapter extends RecyclerView.Adapter<CalendarioViewHolder> {
 
     public final ArrayList<LocalDate> diasMes;
     private final OnItemListener onItemListener;
-    private final int color;
+    private final List<Integer> paleta;
     private int id;
     private CalendarioActivity calendarioActivity;
 
-    public CalendarioAdapter(ArrayList<LocalDate> diasMes, OnItemListener onItemListener, int color, int id, CalendarioActivity calendarioActivity) {
+    public CalendarioAdapter(ArrayList<LocalDate> diasMes, OnItemListener onItemListener, List<Integer> paleta, int id, CalendarioActivity calendarioActivity) {
         this.diasMes = diasMes;
         this.onItemListener = onItemListener;
-        this.color = color;
+        this.paleta = paleta;
         this.id = id;
         this.calendarioActivity = calendarioActivity;
     }
@@ -47,7 +49,11 @@ public class CalendarioAdapter extends RecyclerView.Adapter<CalendarioViewHolder
             holder.tvDia.setText(String.valueOf(diasMes.get(position).getDayOfMonth()));
         }
         CalendarioController cc = new CalendarioController();
-        cc.checaMens(holder, diasMes.get(position), color, id, calendarioActivity);
+        try {
+            cc.checaMens(holder, diasMes.get(position), paleta, id, calendarioActivity);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

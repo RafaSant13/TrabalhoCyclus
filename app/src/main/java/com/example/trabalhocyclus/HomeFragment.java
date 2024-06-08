@@ -59,9 +59,9 @@ public class HomeFragment extends Fragment {
         tvOla.setText(res);
         tvProx = view.findViewById(R.id.tvProx);
         tvProx.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        MensController mc = new MensController(new MensDao(view.getContext()));
         try {
-            List<Menstruacao> menstruacoes = mc.findAllById(id);
+            MensController mc = new MensController(new MensDao(view.getContext()), id);
+            List<Menstruacao> menstruacoes = mc.findAllById();
             if (menstruacoes.size()<2){
                 res = getString(R.string.favor);
                 tvProx.setText(res);
@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
         getActivity().finish();
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Bundle b = new Bundle();
         b.putInt("id", id);
@@ -103,5 +103,5 @@ public class HomeFragment extends Fragment {
         this.startActivity(i);
         getActivity().finish();
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

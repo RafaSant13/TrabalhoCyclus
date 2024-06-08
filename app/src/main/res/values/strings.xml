@@ -12,20 +12,24 @@
     <string name="cadastrar">Cadastrar</string>
     <string name="alterar">Alterar</string>
     <string name="excluir">Excluir</string>
+    <string name="listar">Listar</string>
+    <string name="buscar">Buscar</string>
     <string name="cancelar">Cancelar</string>
     <string name="home">Home</string>
     <string name="perfil">Perfil</string>
     <string name="calendario">Calendário</string>
     <string name="proximaMens">Seu Próximo ciclo começará em x dia(s).</string>
-    <string name="mens">Adicionar menstruação</string>
+    <string name="mens">Menstruação</string>
     <string name="voltar">Voltar</string>
-    <string name="inicio">Início da Menstruação (YYYY/mm/dd)</string>
-    <string name="fim">Fim da Menstruação (YYYY/mm/dd)</string>
+    <string name="inicio">Início da Menstruação (YYYY-mm-dd)</string>
+    <string name="fim">Fim da Menstruação (YYYY-mm-dd)</string>
     <string name="ateHoje">Até hoje?</string>
     <string name="favor">Para prever sua próxima menstruação, favor adicionar as duas menstruações passadas no menu acima.</string>
     <string name="ola">Olá</string>
     <string name="ciclo">Seu próximo ciclo será em aproximadamente</string>
     <string name="dias">dias.</string>
+    <string name="adicionarFim">Para adicionar uma nova menstruação, favor indicar o fim da última:</string>
+    <string name="recarregar">Favor recarregar a página clicando novamente nela no menu acima</string>
 
 
 </resources>

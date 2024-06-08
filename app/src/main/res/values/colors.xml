@@ -2,5 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="salmon">#ff6696</color>
+    <color name="salmon">#FF6E9C</color>
+    <color name="salmonLight">#FFB6CE</color>
+    <color name="gray">#C8C8C8</color>
+    
+
 </resources>

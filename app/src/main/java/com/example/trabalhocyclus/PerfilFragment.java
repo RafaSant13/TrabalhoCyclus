@@ -29,6 +29,7 @@ public class PerfilFragment extends Fragment {
     private Button btnAlterarPerfil;
     private Button btnExcluirPerfil;
     private UsuarioController uc;
+    private int id;
 
     public PerfilFragment() {
         super();
@@ -47,33 +48,42 @@ public class PerfilFragment extends Fragment {
         uc = new UsuarioController(new UsuarioDao(view.getContext()));
         Usuario u = new Usuario();
         Bundle bundle = getArguments();
-        int id = bundle.getInt("id");
+        id = bundle.getInt("id");
         u.setId(id);
-        preencheCampos(u);
-        btnAlterarPerfil.setOnClickListener(op -> {
-            try {
-                alterar(u);
-            } catch (SQLException e) {
-                Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-        btnExcluirPerfil.setOnClickListener(op -> {
-            try {
-                excluir(u);
-            } catch (SQLException e) {
-                Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-        return view;
+        try {
+            u = uc.findOne(u);
+            preencheCampos(u);
+        } catch (SQLException e) {
+            Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        } finally{
+            Usuario finalU = u;
+            btnAlterarPerfil.setOnClickListener(op -> {
+                try {
+                    alterar(finalU);
+                } catch (SQLException e) {
+                    Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            btnExcluirPerfil.setOnClickListener(op -> {
+                try {
+                    excluir(finalU);
+                } catch (SQLException e) {
+                    Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            return view;
+        }
     }
 
     private void alterar(Usuario u) throws SQLException {
+        u = montaUsuario(u);
         uc.update(u);
         Toast.makeText(view.getContext(), "Usuário alterado com sucesso", Toast.LENGTH_LONG).show();
         preencheCampos(u);
     }
 
     private void excluir(Usuario u) throws SQLException {
+        u = montaUsuario(u);
         uc.delete(u);
         Toast.makeText(view.getContext(), "Usuário excluído com sucesso", Toast.LENGTH_LONG).show();
         Intent i = new Intent(view.getContext(), MainActivity.class);
@@ -81,10 +91,20 @@ public class PerfilFragment extends Fragment {
         getActivity().finish();
     }
 
+    private Usuario montaUsuario(Usuario u) {
+        u.setId(Integer.parseInt(etIdPerfil.getText().toString()));
+        u.setLogin(etEmailPerfil.getText().toString());
+        u.setSenha(etSenhaPerfil.getText().toString());
+        u.setNome(etNomePerfil.getText().toString());
+        return u;
+    }
+
     private void preencheCampos(Usuario u) {
-        etIdPerfil.setText(u.getId());
+        etIdPerfil.setText(String.valueOf(u.getId()));
         etEmailPerfil.setText(u.getLogin());
         etSenhaPerfil.setText(u.getSenha());
         etNomePerfil.setText(u.getNome());
     }
+
+
 }

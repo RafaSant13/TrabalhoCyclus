@@ -9,34 +9,32 @@
 
     <EditText
         android:id="@+id/etInicio"
-        android:layout_width="0dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="47dp"
-        android:layout_marginTop="131dp"
-        android:layout_marginEnd="47dp"
-        android:layout_marginBottom="45dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="3dp"
         android:ems="10"
         android:hint="@string/inicio"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/etFim"
+        app:layout_constraintBottom_toTopOf="@+id/btnBuscarAdicionar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etFim"
-        android:layout_width="0dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="47dp"
-        android:layout_marginEnd="47dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="161dp"
         android:ems="10"
         android:hint="@string/fim"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/cbAteHoje"
+        app:layout_constraintBottom_toTopOf="@+id/btnListarAdicionar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etInicio" />
+        app:layout_constraintTop_toBottomOf="@+id/btnBuscarAdicionar" />
 
     <CheckBox
         android:id="@+id/cbAteHoje"
@@ -44,19 +42,100 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="39dp"
         android:text="@string/ateHoje"
-        app:layout_constraintBottom_toTopOf="@+id/btnAdicionar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etFim" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.418" />
 
     <Button
         android:id="@+id/btnAdicionar"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="308dp"
-        android:text="@string/mens"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/salmon"
+        android:text="@string/cadastrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbAteHoje" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnAlterarAdicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/salmon"
+        android:text="@string/alterar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.142"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.612" />
+
+    <Button
+        android:id="@+id/btnExcluirAdicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/salmon"
+        android:text="@string/excluir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.612" />
+
+    <Button
+        android:id="@+id/btnListarAdicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/salmon"
+        android:text="@string/listar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.857"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.612" />
+
+    <Button
+        android:id="@+id/btnBuscarAdicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:backgroundTint="@color/salmon"
+        android:text="@string/buscar"
+        app:layout_constraintBottom_toTopOf="@+id/etFim"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etInicio" />
+
+    <TextView
+        android:id="@+id/tvAdicionarFim"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:text="@string/adicionarFim"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etInicio" />
+
+    <TextView
+        android:id="@+id/tvListar"
+        android:layout_width="373dp"
+        android:layout_height="218dp"
+        android:layout_marginBottom="1dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnExcluirAdicionar"
+        app:layout_constraintVertical_bias="0.997" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

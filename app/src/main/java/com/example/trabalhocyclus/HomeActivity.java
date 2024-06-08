@@ -19,7 +19,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private Fragment fragment;
 
-    public int id;
+    public int idUsr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +32,13 @@ public class HomeActivity extends AppCompatActivity {
             return insets;
         });
         Bundle bundle = getIntent().getExtras();
-        id = bundle.getInt("id");
+        idUsr = bundle.getInt("id");
         bundle.remove("id");
         if (bundle.size()>0){
             carregaFragment(bundle);
         } else {
             Bundle bf = new Bundle();
-            bf.putInt("id", id);
+            bf.putInt("id", idUsr);
             fragment = new HomeFragment();
             fragment.setArguments(bf);
             FragmentManager fm = getSupportFragmentManager();
@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         String tipo = bundle.getString("tipo");
         if (tipo.equals("calendario")){
             Bundle b = new Bundle();
-            b.putInt("id", id);
+            b.putInt("id", idUsr);
             Intent i = new Intent(this, CalendarioActivity.class);
             i.putExtras(b);
             this.startActivity(i);
@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
                 fragment = new AdicionarFragment();
             }
             Bundle bf = new Bundle();
-            bf.putInt("id", id);
+            bf.putInt("id", idUsr);
             fragment.setArguments(bf);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -89,6 +89,7 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
         Bundle bundle = new Bundle();
         Intent i = new Intent(this, HomeActivity.class);
+        bundle.putInt("id", idUsr);
 
         if (id == R.id.itemHome){
             bundle.putString("tipo", "home");
@@ -116,9 +117,5 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         }
 
-    }
-
-    public int getId(){
-        return id;
     }
 }

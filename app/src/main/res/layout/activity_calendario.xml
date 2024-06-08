@@ -13,6 +13,7 @@
         android:id="@+id/btnVoltar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/salmon"
         android:text="@string/voltar" />
 
     <LinearLayout
@@ -23,13 +24,15 @@
         android:layout_margin="20dp">
 
         <Button
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/salmon"
             android:onClick="Passado"
             android:text="@string/passado"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
@@ -43,13 +46,15 @@
             />
 
         <Button
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/salmon"
             android:onClick="Proximo"
             android:text="@string/proximo"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
 
