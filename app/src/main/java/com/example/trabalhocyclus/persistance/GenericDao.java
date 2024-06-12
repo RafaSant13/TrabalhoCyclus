@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class GenericDao extends SQLiteOpenHelper {
 
-    private static final String DATABASE = "CYCLUSteste";
-    private static final int DATABASE_VER = 5;
+    private static final String DATABASE = "CYCLUS.DB";
+    private static final int DATABASE_VER = 1;
     private static final String CREATE_TABLE_USUARIO =
             "CREATE TABLE usuario (" +
                     "id INT NOT NULL UNIQUE PRIMARY KEY, " +
@@ -20,7 +20,7 @@ public class GenericDao extends SQLiteOpenHelper {
                     "data_inicio VARCHAR(10) NOT NULL PRIMARY KEY, " +
                     "data_fim VARCHAR(10), " +
                     "dias INT NOT NULL, "+
-                    "idUsuario INT NOT NULL, FOREIGN KEY (idUsuario) REFERENCES usuario(id)); ";
+                    "idUsuario INT NOT NULL, FOREIGN KEY (idUsuario) REFERENCES usuario(id) ON DELETE CASCADE); ";
 
     public GenericDao(Context context){
         super(context, DATABASE, null, DATABASE_VER);

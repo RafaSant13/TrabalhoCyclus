@@ -22,54 +22,33 @@ public class CalendarioController {
     }
 
     public void checaMens(@NonNull CalendarioViewHolder holder, LocalDate l, List<Integer> paleta, int id, CalendarioActivity calendarioActivity) throws SQLException {
-        MensController mc =  new MensController(new MensDao(calendarioActivity), id);
-        try {
-            List<Menstruacao> menstruacoes = mc.findAllById();
-            for (Menstruacao m : menstruacoes){
-                LocalDate fim = m.getFim();
-                if (m.getFim()==null){
-                    fim = LocalDate.now();
-                }
-                if (isWithinRange(l, m.getInicio(), fim)){
-                    if (l.isEqual(LocalDate.now())){
-                        holder.tvDia.setBackgroundColor(paleta.get(0));
-                    }
-                    else {
-                        holder.tvDia.setBackgroundColor(paleta.get(1));
-                    }
-                    break;
-                }
-                if (l.isEqual(LocalDate.now())){
-                    holder.tvDia.setBackgroundColor(paleta.get(2));
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        Dia d = carregaDia(l, id, calendarioActivity);
+        d.identificaDia(holder, paleta);
     }
 
     public Dia carregaDia(LocalDate data, int id, CalendarioActivity calendarioActivity) throws SQLException {
         MensController mc =  new MensController(new MensDao(calendarioActivity), id);
-        Dia dia = null;
-        try {
-            List<Menstruacao> menstruacoes = mc.findAllById();
-            for (Menstruacao m : menstruacoes){
-                LocalDate fim = m.getFim();
-                if (m.getFim()==null){
-                    fim = LocalDate.now();
-                }
-                if (isWithinRange(data, m.getInicio(), fim)){
-                    dia = new DiaMens(data);
-                    break;
-                } else {
-                    dia = new DiaComum(data);
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            return dia;
+        DiaFactory df;
+        List<Menstruacao> menstruacoes = mc.findAllById();
+        if (isInMenstruacoes(data, menstruacoes)){
+            df = new DiaMensController();
+        } else {
+            df = new DiaComumController();
         }
+        return df.criaDia(data);
+    }
+
+    boolean isInMenstruacoes(LocalDate data, List<Menstruacao> menstruacoes){
+        for (Menstruacao m : menstruacoes){
+            LocalDate fim = m.getFim();
+            if (m.getFim()==null){
+                fim = LocalDate.now();
+            }
+            if (isWithinRange(data, m.getInicio(), fim)){
+                return true;
+            }
+        }
+        return false;
     }
 
     boolean isWithinRange(LocalDate testDate, LocalDate startDate, LocalDate endDate) {

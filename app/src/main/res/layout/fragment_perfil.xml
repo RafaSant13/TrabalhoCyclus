@@ -83,4 +83,43 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:text="@string/id"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/etIdPerfil"
+        app:layout_constraintStart_toStartOf="@+id/etIdPerfil" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:text="@string/email"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/etEmailPerfil"
+        app:layout_constraintStart_toStartOf="@+id/etEmailPerfil" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:text="@string/senha"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/etSenhaPerfil"
+        app:layout_constraintStart_toStartOf="@+id/etSenhaPerfil" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nome"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/etNomePerfil"
+        app:layout_constraintStart_toStartOf="@+id/etNomePerfil" />
 </androidx.constraintlayout.widget.ConstraintLayout>
