@@ -112,23 +112,26 @@ public class AdicionarFragment extends Fragment {
     }
 
     private void checaUltima() {
-        Menstruacao ultima = menstruacoes.get(menstruacoes.size()-1);
-        if (ultima.getFim()==null){
-            tvAdicionarFim.setVisibility(View.VISIBLE);
-            etInicio.setVisibility(View.INVISIBLE);
-            btnBuscarAdicionar.setVisibility(View.INVISIBLE);
-            btnAdicionar.setVisibility(View.INVISIBLE);
-            btnListarAdicionar.setVisibility(View.INVISIBLE);
-            cbAteHoje.setVisibility(View.INVISIBLE);
-            etInicio.setText(ultima.getInicio().toString());
-            tvAdicionarFim.setText(getString(R.string.adicionarFim)+" Data início: "+ultima.getInicio().toString());
-        } else{
-            tvAdicionarFim.setVisibility(View.INVISIBLE);
-            etInicio.setVisibility(View.VISIBLE);
-            btnBuscarAdicionar.setVisibility(View.VISIBLE);
-            btnAdicionar.setVisibility(View.VISIBLE);
-            btnListarAdicionar.setVisibility(View.VISIBLE);
-            cbAteHoje.setVisibility(View.VISIBLE);
+        if (menstruacoes.size()>0){
+            Menstruacao ultima = menstruacoes.get(menstruacoes.size()-1);
+            if (ultima.getFim()==null){
+                tvAdicionarFim.setVisibility(View.VISIBLE);
+                etInicio.setVisibility(View.INVISIBLE);
+                btnBuscarAdicionar.setVisibility(View.INVISIBLE);
+                btnAdicionar.setVisibility(View.INVISIBLE);
+                btnListarAdicionar.setVisibility(View.INVISIBLE);
+                cbAteHoje.setVisibility(View.INVISIBLE);
+                cbAteHoje.setChecked(false);
+                etInicio.setText(ultima.getInicio().toString());
+                tvAdicionarFim.setText(getString(R.string.adicionarFim)+" Data início: "+ultima.getInicio().toString());
+            } else{
+                tvAdicionarFim.setVisibility(View.INVISIBLE);
+                etInicio.setVisibility(View.VISIBLE);
+                btnBuscarAdicionar.setVisibility(View.VISIBLE);
+                btnAdicionar.setVisibility(View.VISIBLE);
+                btnListarAdicionar.setVisibility(View.VISIBLE);
+                cbAteHoje.setVisibility(View.VISIBLE);
+            }
         }
     }
 

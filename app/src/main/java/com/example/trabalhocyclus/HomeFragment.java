@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
                 int dia = mc.calcDia(menstruacoes);
                 LocalDate dataInicio = menstruacoes.get(menstruacoes.size()-1).getInicio();
                 LocalDate dataProx = dataInicio.plusDays(dia);
-                res = getString(R.string.ciclo) + " "+dia+" "+getString(R.string.dias)+"\nDia: "+dataProx.getDayOfMonth()+"/"+dataProx.getMonthValue()+"/"+dataProx.getYear();
+                res = getString(R.string.ciclo)+" "+dataProx.getDayOfMonth()+"/"+dataProx.getMonthValue()+"/"+dataProx.getYear();
                 tvProx.setText(res);
             }
         } catch (SQLException e) {
@@ -79,29 +79,4 @@ public class HomeFragment extends Fragment {
             return view;
         }
     }
-
-    private void adicionar() {
-
-    }
-
-    private void perfil() {
-
-    }
-
-    private void calendario() {
-        Intent i = new Intent(view.getContext(), CalendarioActivity.class);
-        this.startActivity(i);
-        getActivity().finish();
-    }
-
-    /*@Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Bundle b = new Bundle();
-        b.putInt("id", id);
-        Intent i = new Intent(view.getContext(), HomeActivity.class);
-        i.putExtras(b);
-        this.startActivity(i);
-        getActivity().finish();
-        return super.onOptionsItemSelected(item);
-    }*/
 }

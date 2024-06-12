@@ -123,7 +123,9 @@ public class MensDao implements IMensDao, ICRUDDao<Menstruacao> {
 
     private static ContentValues getContentValues (Menstruacao m){
         ContentValues cv = new ContentValues();
-        cv.put("data_inicio", m.getInicio().toString());
+        if (m.getInicio()!=null){
+            cv.put("data_inicio", m.getInicio().toString());
+        }
         if (m.getFim()!=null){
             cv.put("data_fim", m.getFim().toString());
         }
